@@ -1,9 +1,14 @@
 package com.okayo.facturation.core.model.domain;
 
+import jakarta.validation.constraints.NotBlank;
+
 public class Adresse {
 	
+	@NotBlank
 	private String ligne;
+	@NotBlank
 	private String codePostal;
+	@NotBlank
 	private String ville;
 
 	public Adresse(String ligne, String codePostal, String ville) {

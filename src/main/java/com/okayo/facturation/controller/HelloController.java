@@ -1,4 +1,4 @@
-package com.okayo.facturation;
+package com.okayo.facturation.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class HelloController {
 	
-    @GetMapping("/hello")
+    @GetMapping("/")
     public String hello(Model model) {
         model.addAttribute("hello", "Hello World!");
         return "hello";
