@@ -3,7 +3,7 @@ package com.okayo.facturation.core.model.domain;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
-public class ProduitHistory {
+public class ProduitData {
 
 	private Integer id;
 	@NotNull
@@ -15,11 +15,11 @@ public class ProduitHistory {
 	@NotNull
 	private Double prixUnitaireHT;
 
-	public ProduitHistory() {
+	public ProduitData() {
 		super();
 	}
 
-	public ProduitHistory(Integer id, Integer produitId, String designation, Double tva, Double prixUnitaireHT) {
+	public ProduitData(Integer id, Integer produitId, String designation, Double tva, Double prixUnitaireHT) {
 		super();
 		this.id = id;
 		this.produitId = produitId;
@@ -28,7 +28,7 @@ public class ProduitHistory {
 		this.prixUnitaireHT = prixUnitaireHT;
 	}
 
-	public ProduitHistory(Integer produitId, String designation, Double tva, Double prixUnitaireHT) {
+	public ProduitData(Integer produitId, String designation, Double tva, Double prixUnitaireHT) {
 		this(null, produitId, designation, tva, prixUnitaireHT);
 	}
 

@@ -3,7 +3,7 @@ package com.okayo.facturation.core.model.db;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "produits", uniqueConstraints = { @UniqueConstraint(columnNames = { "label" }) })
+@Table(name = "produits")
 public class DbProduit {
 	
 	@Id

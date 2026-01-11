@@ -5,8 +5,8 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 
 import com.okayo.facturation.core.model.db.DbProduit;
-import com.okayo.facturation.core.model.db.DbProduitHistory;
-import com.okayo.facturation.core.utils.db.DbProduitHistoryRepository;
+import com.okayo.facturation.core.model.db.DbProduitData;
+import com.okayo.facturation.core.utils.db.DbProduitDataRepository;
 import com.okayo.facturation.core.utils.db.DbProduitRepository;
 
 import org.junit.jupiter.api.Test;
@@ -16,7 +16,7 @@ import java.util.Date;
 import java.util.List;
 
 @DataJpaTest
-public class DbProduitHistoryRepositoryTest {
+public class DbProduitDataRepositoryTest {
 	
 	@Autowired
     private TestEntityManager entityManager;
@@ -25,17 +25,17 @@ public class DbProduitHistoryRepositoryTest {
     private DbProduitRepository dbProduitRepository;
 
     @Autowired
-    private DbProduitHistoryRepository dbProduitHistoryRepository;
+    private DbProduitDataRepository dbProduitDataRepository;
 
     @Test
     public void insertion() {
         // Given
     	Date now = new Date();
     	DbProduit produitA = entityManager.persist(new DbProduit("Produit A"));
-        DbProduitHistory history = new DbProduitHistory(produitA, "Mon Produit A", 20, 4000, now);
+        DbProduitData history = new DbProduitData(produitA, "Mon Produit A", 20, 4000, now);
 
         // When
-        DbProduitHistory inserted =  dbProduitHistoryRepository.save(history);
+        DbProduitData inserted =  dbProduitDataRepository.save(history);
 
         // Then
         assertThat(inserted.getId()).isGreaterThan(0);
@@ -52,15 +52,15 @@ public class DbProduitHistoryRepositoryTest {
     	Date now = new Date();
     	Date avant = Date.from(new Date().toInstant().minusSeconds(3600));
     	DbProduit produitA = entityManager.persist(new DbProduit("Produit A"));
-        DbProduitHistory inserted =  entityManager.persist(new DbProduitHistory(produitA, "Mon Produit A", 20, 4000, avant));
+        DbProduitData inserted =  entityManager.persist(new DbProduitData(produitA, "Mon Produit A", 20, 4000, avant));
 
         // When
-        int modified = dbProduitHistoryRepository.updateProduitHistory(produitA.getProduitId(), now);
+        int modified = dbProduitDataRepository.updateDateEnd(produitA.getProduitId(), now);
         entityManager.clear();
         
         // Then
         assertThat(modified).isEqualTo(1);
-        DbProduitHistory updated = entityManager.find(DbProduitHistory.class, inserted.getId());
+        DbProduitData updated = entityManager.find(DbProduitData.class, inserted.getId());
         assertThat(updated.getDateStart()).hasSameTimeAs(avant);
         assertThat(updated.getDateEnd()).hasSameTimeAs(now);
     }
@@ -73,17 +73,17 @@ public class DbProduitHistoryRepositoryTest {
     	Date _2h = Date.from(new Date().toInstant().minusSeconds(2*3600));
     	Date _1h = Date.from(new Date().toInstant().minusSeconds(3600));
     	DbProduit produitA = dbProduitRepository.save(new DbProduit("Produit A"));
-        dbProduitHistoryRepository.save(new DbProduitHistory(produitA, "Mon Produit A", 20, 4000, _3h));
-        dbProduitHistoryRepository.updateProduitHistory(produitA.getProduitId(), _1h);
-        dbProduitHistoryRepository.save(new DbProduitHistory(produitA, "Mon Produit A (a 8 % de tva)", 8, 4500, _1h));
+        dbProduitDataRepository.save(new DbProduitData(produitA, "Mon Produit A", 20, 4000, _3h));
+        dbProduitDataRepository.updateDateEnd(produitA.getProduitId(), _1h);
+        dbProduitDataRepository.save(new DbProduitData(produitA, "Mon Produit A (a 8 % de tva)", 8, 4500, _1h));
 
-        DbProduitHistory history = dbProduitHistoryRepository.findByProduitAndDate(produitA.getProduitId(), _2h);
+        DbProduitData history = dbProduitDataRepository.findByProduitAndDate(produitA.getProduitId(), _2h);
         assertThat(history).isNotNull();
         assertThat(history.getDesignation()).isEqualTo("Mon Produit A");
         assertThat(history.getTva()).isEqualTo(20);
         assertThat(history.getPrixUnitaireHT()).isEqualTo(4000);
 
-        DbProduitHistory historyNow = dbProduitHistoryRepository.findByProduitAndDate(produitA.getProduitId(), now);
+        DbProduitData historyNow = dbProduitDataRepository.findByProduitAndDate(produitA.getProduitId(), now);
         assertThat(historyNow).isNotNull();
         assertThat(historyNow.getDesignation()).isEqualTo("Mon Produit A (a 8 % de tva)");
         assertThat(historyNow.getTva()).isEqualTo(8);
@@ -99,12 +99,12 @@ public class DbProduitHistoryRepositoryTest {
 		DbProduit produitA = entityManager.persist(new DbProduit("Produit A"));
 		DbProduit produitB = entityManager.persist(new DbProduit("Produit B"));
 		
-		entityManager.persist(new DbProduitHistory(produitA, "Mon Produit A", 20, 4000, _3h, _1h));
-		DbProduitHistory lastA = entityManager.persist(new DbProduitHistory(produitA, "Mon Produit A plus recent", 7, 4500, _1h));
-		DbProduitHistory lastB = entityManager.persist(new DbProduitHistory(produitB, "Mon Produit B", 14, 200, _3h));
+		entityManager.persist(new DbProduitData(produitA, "Mon Produit A", 20, 4000, _3h, _1h));
+		DbProduitData lastA = entityManager.persist(new DbProduitData(produitA, "Mon Produit A plus recent", 7, 4500, _1h));
+		DbProduitData lastB = entityManager.persist(new DbProduitData(produitB, "Mon Produit B", 14, 200, _3h));
 
 		// When
-		List<DbProduitHistory> currentEntries = dbProduitHistoryRepository.findAllWithoutDateEnd();
+		List<DbProduitData> currentEntries = dbProduitDataRepository.findAllWithoutDateEnd();
 
 		// Then
 		assertThat(currentEntries).hasSize(2);

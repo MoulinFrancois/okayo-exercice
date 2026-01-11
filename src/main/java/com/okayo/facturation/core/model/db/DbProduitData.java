@@ -4,8 +4,8 @@ import java.util.Date;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "produit_history")
-public class DbProduitHistory {
+@Table(name = "produit_data")
+public class DbProduitData {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,11 +30,11 @@ public class DbProduitHistory {
 	@Column(updatable = true)
 	private Date dateEnd;
 	
-	public DbProduitHistory() {
+	public DbProduitData() {
 		super();
 	}
 
-	public DbProduitHistory(DbProduit produit, String designation, double tva, double prixUnitaireHT, Date dateStart) {
+	public DbProduitData(DbProduit produit, String designation, double tva, double prixUnitaireHT, Date dateStart) {
 		super();
 		this.produit = produit;
 		this.designation = designation;
@@ -44,7 +44,7 @@ public class DbProduitHistory {
 	}
 	
 	
-	public DbProduitHistory(DbProduit produit, String designation, double tva, double prixUnitaireHT,
+	public DbProduitData(DbProduit produit, String designation, double tva, double prixUnitaireHT,
 			Date dateStart, Date dateEnd) {
 		super();
 		this.produit = produit;

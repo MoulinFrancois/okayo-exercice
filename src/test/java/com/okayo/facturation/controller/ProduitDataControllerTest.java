@@ -20,47 +20,47 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import com.okayo.facturation.core.model.domain.ProduitHistory;
-import com.okayo.facturation.services.ProduitHistoryService;
+import com.okayo.facturation.core.model.domain.ProduitData;
+import com.okayo.facturation.services.ProduitDataService;
 
-@WebMvcTest(ProduitHistoryController.class)
+@WebMvcTest(ProduitDataController.class)
 @AutoConfigureMockMvc
-public class ProduitHistoryControllerTest {
+public class ProduitDataControllerTest {
 
 	@Autowired
 	private MockMvc mockMvc;
 
 	@MockBean
-	private ProduitHistoryService produitHistoryService;
+	private ProduitDataService produitDataService;
 
 	@Test
 	void loadActuelles() throws Exception {
-		when(produitHistoryService.chargerEntreesActuelles()).thenReturn(List
-				.of(new ProduitHistory(1, "Produit A", 20d, 4000d), new ProduitHistory(2, "Produit B", 15d, 3000d)));
+		when(produitDataService.chargerEntreesActuelles()).thenReturn(List
+				.of(new ProduitData(1, "Produit A", 20d, 4000d), new ProduitData(2, "Produit B", 15d, 3000d)));
 		
 		String expected = """
 				[{"id":null,"produitId":1,"designation":"Produit A","tva":20.0,"prixUnitaireHT":4000.0},
 				 {"id":null,"produitId":2,"designation":"Produit B","tva":15.0,"prixUnitaireHT":3000.0}]
 				""";
-		mockMvc.perform(get("/api/produit-history/load-current"))
+		mockMvc.perform(get("/api/produit-data/load-current"))
 		.andExpect(status().isOk())
 		.andExpect(content().json(expected));
 	}
 
 	@Test
-	void enregistrerProduitHistory_ok() throws Exception {
-		doNothing().when(produitHistoryService).sauvegarder(any(), any());
-		mockMvc.perform(post("/api/produit-history/save")
+	void enregistrerProduitData_ok() throws Exception {
+		doNothing().when(produitDataService).sauvegarder(any(), any());
+		mockMvc.perform(post("/api/produit-data/save")
 				.content("{\"produitId\":1,\"designation\":\"Produit A\",\"tva\":20.0,\"prixUnitaireHT\":4000.0}")
 				.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk());
 	}
 
 	@Test
-	void enregistrerProduitHistory_existant() throws Exception {
+	void enregistrerProduitData_existant() throws Exception {
 		doThrow(new IllegalArgumentException("Produit introuvable avec l'ID : 42"))
-				.when(produitHistoryService).sauvegarder(any(), any());
-		mockMvc.perform(post("/api/produit-history/save")
+				.when(produitDataService).sauvegarder(any(), any());
+		mockMvc.perform(post("/api/produit-data/save")
 				.content("{\"produitId\":1,\"designation\":\"Produit A\",\"tva\":20.0,\"prixUnitaireHT\":4000.0}")
 				.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().is(400))
@@ -68,9 +68,9 @@ public class ProduitHistoryControllerTest {
 	}
 
 	@Test
-	void enregistrerProduitHistory_contentInvalide() throws Exception {
-		doNothing().when(produitHistoryService).sauvegarder(any(), any());
-		mockMvc.perform(post("/api/produit-history/save")
+	void enregistrerProduitData_contentInvalide() throws Exception {
+		doNothing().when(produitDataService).sauvegarder(any(), any());
+		mockMvc.perform(post("/api/produit-data/save")
 				.content("{\"designation\":\"Produit A\",\"tva\":20.0,\"prixUnitaireHT\":4000.0}")
 				.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().is(400))

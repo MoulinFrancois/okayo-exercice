@@ -10,26 +10,26 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.okayo.facturation.core.model.domain.ProduitHistory;
-import com.okayo.facturation.services.ProduitHistoryService;
+import com.okayo.facturation.core.model.domain.ProduitData;
+import com.okayo.facturation.services.ProduitDataService;
 
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/api/produit-history")
-public class ProduitHistoryController {
+@RequestMapping("/api/produit-data")
+public class ProduitDataController {
 
 	@Autowired
-	ProduitHistoryService produitHistoryService;
+	ProduitDataService produitDataService;
 
 	@PostMapping(path = "/save", consumes = "application/json", produces = "application/json")
-	public void enregistrerProduit(@Valid @RequestBody ProduitHistory data) {
-		produitHistoryService.sauvegarder(data, new Date());
+	public void enregistrerProduitData(@Valid @RequestBody ProduitData data) {
+		produitDataService.sauvegarder(data, new Date());
 	}
 
 	@GetMapping(path = "/load-current", produces = "application/json")
-	public List<ProduitHistory> chargerTousLesProduits() {
-		return produitHistoryService.chargerEntreesActuelles();
+	public List<ProduitData> chargerToutesLesData() {
+		return produitDataService.chargerEntreesActuelles();
 	}
 
 }
