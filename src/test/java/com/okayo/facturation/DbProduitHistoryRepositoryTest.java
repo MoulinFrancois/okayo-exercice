@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Date;
+import java.util.List;
 
 @DataJpaTest
 public class DbProduitHistoryRepositoryTest {
@@ -88,5 +89,26 @@ public class DbProduitHistoryRepositoryTest {
         assertThat(historyNow.getTva()).isEqualTo(8);
         assertThat(historyNow.getPrixUnitaireHT()).isEqualTo(4500);
     }
+    
+    @Test
+	public void findAllWithoutEndDate() {
+		// Given
+		Date _3h = Date.from(new Date().toInstant().minusSeconds(3 * 3600));
+		Date _1h = Date.from(new Date().toInstant().minusSeconds(3600));
+		
+		DbProduit produitA = entityManager.persist(new DbProduit("Produit A"));
+		DbProduit produitB = entityManager.persist(new DbProduit("Produit B"));
+		
+		entityManager.persist(new DbProduitHistory(produitA, "Mon Produit A", 20, 4000, _3h, _1h));
+		DbProduitHistory lastA = entityManager.persist(new DbProduitHistory(produitA, "Mon Produit A plus recent", 7, 4500, _1h));
+		DbProduitHistory lastB = entityManager.persist(new DbProduitHistory(produitB, "Mon Produit B", 14, 200, _3h));
+
+		// When
+		List<DbProduitHistory> currentEntries = dbProduitHistoryRepository.findAllWithoutDateEnd();
+
+		// Then
+		assertThat(currentEntries).hasSize(2);
+		assertThat(currentEntries).containsExactly(lastA, lastB);
+	}
     
 }

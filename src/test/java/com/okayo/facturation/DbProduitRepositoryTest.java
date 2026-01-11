@@ -66,4 +66,12 @@ public class DbProduitRepositoryTest {
         assertThat(dbProduitRepository.findDbProduitByLabel(produitA.getLabel())).isPresent();
     }
     
+    @Test
+    public void findByProduitId() {
+        DbProduit produitA = entityManager.persist(new DbProduit("Produit A"));
+        entityManager.flush();
+
+        assertThat(dbProduitRepository.findByProduitId(produitA.getProduitId())).isPresent();
+    }
+    
 }

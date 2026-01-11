@@ -11,4 +11,6 @@ public interface DbProduitRepository extends JpaRepository<DbProduit, String> {
 
 	public Optional<DbProduit> findDbProduitByLabel(String label);
 	
+	public Optional<DbProduit> findByProduitId(int produit);
+	
 }

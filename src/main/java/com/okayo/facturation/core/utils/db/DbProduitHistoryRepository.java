@@ -1,6 +1,7 @@
 package com.okayo.facturation.core.utils.db;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -21,5 +22,8 @@ public interface DbProduitHistoryRepository extends JpaRepository<DbProduitHisto
 
 	@Query(value = "select ph from DbProduitHistory ph where ph.produit.produitId = :id and ph.dateStart <= :date and (ph.dateEnd IS NULL OR ph.dateEnd > :date)")
 	public DbProduitHistory findByProduitAndDate(@Param("id") int produitId, @Param("date") Date date);
+	
+	@Query(value = "select ph from DbProduitHistory ph where ph.dateEnd IS NULL")
+	public List<DbProduitHistory> findAllWithoutDateEnd();
 	
 }

@@ -43,6 +43,18 @@ public class DbProduitHistory {
 		this.dateStart = dateStart;
 	}
 	
+	
+	public DbProduitHistory(DbProduit produit, String designation, double tva, double prixUnitaireHT,
+			Date dateStart, Date dateEnd) {
+		super();
+		this.produit = produit;
+		this.designation = designation;
+		this.tva = tva;
+		this.prixUnitaireHT = prixUnitaireHT;
+		this.dateStart = dateStart;
+		this.dateEnd = dateEnd;
+	}
+
 	public int getId() {
 		return id;
 	}
