@@ -22,6 +22,12 @@ public class DbProduit {
 		this.label = label;
 	}
 
+	public DbProduit(int produitId, String label) {
+		super();
+		this.produitId = produitId;
+		this.label = label;
+	}
+
 	public int getProduitId() {
 		return produitId;
 	}
@@ -29,4 +35,13 @@ public class DbProduit {
 	public String getLabel() {
 		return label;
 	}
+
+	public void setProduitId(int produitId) {
+		this.produitId = produitId;
+	}
+
+	public void setLabel(String label) {
+		this.label = label;
+	}
+	
 }
