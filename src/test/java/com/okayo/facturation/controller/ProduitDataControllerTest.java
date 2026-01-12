@@ -57,7 +57,7 @@ public class ProduitDataControllerTest {
 	}
 
 	@Test
-	void enregistrerProduitData_existant() throws Exception {
+	void enregistrerProduitData_produitInexistant() throws Exception {
 		doThrow(new IllegalArgumentException("Produit introuvable avec l'ID : 42"))
 				.when(produitDataService).sauvegarder(any(), any());
 		mockMvc.perform(post("/api/produit-data/save")
