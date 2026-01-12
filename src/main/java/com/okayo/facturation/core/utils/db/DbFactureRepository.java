@@ -14,4 +14,6 @@ public interface DbFactureRepository extends JpaRepository<DbFacture, String> {
 	@Query("select max(f.dateFacturation) from DbFacture f where f.client.code = :clientCode and f.dateFacturation < :referenceDate")
 	public Date findLastDateFacturationBeforeReferenceForClient(String clientCode, Date referenceDate);
 
+	public DbFacture findByReference(String reference);
+
 }

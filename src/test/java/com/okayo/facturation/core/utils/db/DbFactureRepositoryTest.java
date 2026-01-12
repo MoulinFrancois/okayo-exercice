@@ -1,4 +1,4 @@
-package com.okayo.facturation;
+package com.okayo.facturation.core.utils.db;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -11,7 +11,6 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 
 import com.okayo.facturation.core.model.db.DbClient;
 import com.okayo.facturation.core.model.db.DbFacture;
-import com.okayo.facturation.core.utils.db.DbFactureRepository;
 
 @DataJpaTest
 public class DbFactureRepositoryTest {
@@ -57,4 +56,24 @@ public class DbFactureRepositoryTest {
     	assertThat(found).isSameAs(found);
     	assertThat(notClient).isNull();
     }
+    
+    @Test
+    public void findByReference() {
+        // Given
+    	Date now = new Date();
+    	DbClient client = new DbClient("client26-001", "test", "12 rue du test", "75016", "Paris");
+    	entityManager.persist(client);
+    	DbFacture facture = entityManager.persist(new DbFacture(client, now, now));
+    	entityManager.flush();
+    	
+        // When
+    	DbFacture inserted = dbFactureRepository.findByReference(facture.getReference());
+    	
+        // Then
+    	assertThat(inserted.getReference()).isEqualTo(facture.getReference());
+    	assertThat(inserted.getClient()).isEqualTo(client);
+    	assertThat(inserted.getDateFacturation()).isEqualTo(now);
+    	assertThat(inserted.getDateEcheance()).isEqualTo(now);
+    }
+    
 }

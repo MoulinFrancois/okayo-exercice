@@ -1,0 +1,51 @@
+{
+  "reference": "2026-001",
+  "client": {
+    "code": "Client 1",
+    "nom": "Martine Brun",
+    "adresse": {
+      "ligne": "1, rue du test",
+      "codePostal": "75012",
+      "ville": "Paris"
+    }
+  },
+  "elements": [
+    {
+      "designation": "Produit C",
+      "tva": 5,
+      "prixUnitaireHT": 200,
+      "quantite": 14,
+      "totalHT": 2800
+    },
+    {
+      "designation": "Mon produit B",
+      "tva": 7,
+      "prixUnitaireHT": 4000,
+      "quantite": 5,
+      "totalHT": 20000
+    },
+    {
+      "designation": "Le Produit D",
+      "tva": 20,
+      "prixUnitaireHT": 157.90,
+      "quantite": 60,
+      "totalHT":  9474.0
+    },
+    {
+      "designation": "Le produit A",
+      "tva": 20,
+      "prixUnitaireHT": 58000,
+      "quantite": 4,
+      "totalHT": 232000
+    }
+  ],
+  "dateFacturation": "2026-01-12T00:00:00.000+00:00",
+  "dateEcheance": "2026-01-17T00:00:00.000+00:00",
+  "totalHT": 264274.0,
+  "totalTTC": 314108.8,
+  "totalTVAParTaux": {
+    "20.0": 48294.8,
+    "5.0": 140,
+    "7.0": 1400.0000000000002
+  }
+}

@@ -1,14 +1,13 @@
-package com.okayo.facturation;
+package com.okayo.facturation.core.utils.db;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 
 import com.okayo.facturation.core.model.db.DbClient;
-import com.okayo.facturation.core.utils.db.DbClientRepository;
-
-import org.junit.jupiter.api.Test;
-import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
 public class DbClientRepositoryTest {

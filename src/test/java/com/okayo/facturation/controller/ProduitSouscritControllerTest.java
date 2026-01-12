@@ -10,8 +10,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 
@@ -23,9 +21,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import com.okayo.facturation.core.model.domain.ProduitData;
 import com.okayo.facturation.core.model.domain.ProduitSouscrit;
-import com.okayo.facturation.services.ProduitDataService;
 import com.okayo.facturation.services.ProduitSouscritService;
 
 @WebMvcTest(ProduitSouscritController.class)
@@ -37,7 +33,6 @@ public class ProduitSouscritControllerTest {
 
 	@MockBean
 	private ProduitSouscritService produitSouscritService;
-
 	
 	@Test
 	void enregistrerProduitData_ok() throws Exception {

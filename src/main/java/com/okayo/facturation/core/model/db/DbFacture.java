@@ -31,6 +31,14 @@ public class DbFacture {
 		super();
 	}
 
+	public DbFacture(String reference, DbClient client, Date dateFacturation, Date dateEcheance) {
+		super();
+		this.reference = reference;
+		this.client = client;
+		this.dateFacturation = dateFacturation;
+		this.dateEcheance = dateEcheance;
+	}
+
 	public DbFacture(DbClient client, Date dateFacturation, Date dateEcheance) {
 		super();
 		this.client = client;

@@ -5,10 +5,10 @@ public class FacturationElement {
 	private String designation;
 	private double tva;
 	private double prixUnitaireHT;
-	private int quantite;
+	private double quantite;
 	private double totalHT;
 	
-	public FacturationElement(String designation, double tva, double prixUnitaireHT, int quantite, double totalHT) {
+	public FacturationElement(String designation, double tva, double prixUnitaireHT, double quantite, double totalHT) {
 		this.designation = designation;
 		this.tva = tva;
 		this.prixUnitaireHT = prixUnitaireHT;
@@ -28,7 +28,7 @@ public class FacturationElement {
 		return prixUnitaireHT;
 	}
 	
-	public int getQuantite() {
+	public double getQuantite() {
 		return quantite;
 	}
 	

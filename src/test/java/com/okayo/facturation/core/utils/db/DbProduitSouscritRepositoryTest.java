@@ -1,4 +1,4 @@
-package com.okayo.facturation;
+package com.okayo.facturation.core.utils.db;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -13,7 +13,6 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import com.okayo.facturation.core.model.db.DbClient;
 import com.okayo.facturation.core.model.db.DbProduit;
 import com.okayo.facturation.core.model.db.DbProduitSouscrit;
-import com.okayo.facturation.core.utils.db.DbProduitSouscritRepository;
 
 @DataJpaTest
 public class DbProduitSouscritRepositoryTest {
