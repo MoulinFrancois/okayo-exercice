@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+   <head>
+      <title th:text="${reference}"></title>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+   </head>
+   <body>
+      <div style="page-break-before:always; page-break-after:always;max-width: 720px;background-color: white;">
+         <div>
+			<table style="width:720px;">
+				<tr>
+					<td>
+						<img src="data:image/png;base64,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"/>
+					</td>
+					<td style=" text-align: left;">
+						<p style="text-align: right;">Facture<br />R&eacute;f. : <span th:text="${reference}"></span><br />Date facturation : <span th:text="${datefacturation}"></span><br />Date &eacute;ch&eacute;ance : <span th:text="${dateecheance}"></span><br />Code client : <span th:text="${clientcode}"></span></p>
+					</td>
+				</tr>
+			</table>	
+			<table style="height: 135px; width: 720px;">
+			   <tbody>
+			      <tr style="height: 10px;">
+			         <td style="width: 370px; height: 10px; text-align: left;">
+			            <p>Emetteur :</p>
+			            <table style="height: 180px; width:350px;background-color:#CCCCCC;">
+			               <tbody>
+			                  <tr style="height: 60px;">
+			                     <td style="width: 350px; height: 60px;">
+			                        <h3><spa>Okayo SAS</span><br /><span>35 Rue du G&eacute;n&eacute;ral Foy</span><br /><span>75008 Paris</span></h3>
+			                     </td>
+			                  </tr>
+			                  <tr style="height: 60px;">
+			                     <td style="width: 350px; height: 60px;">
+			                        <h3><span>T&eacute;l.: 01 80 88 63 00</span><br /><span>Web: www.okayo.fr</span></h3>
+			                     </td>
+			                  </tr>
+			               </tbody>
+			            </table>
+			         </td>
+			         <td style="width: 350px; height: 10px;">
+			            <p>Adress&eacute; &agrave; :</p>
+			            <table style="height: 190px;width:350px;border:1px solid gray;">
+			               <tbody>
+			                  <tr style="height: 60px;">
+			                     <td style="width: 350px; height: 60px;">
+			                        <h3><span th:text="${clientnom}"></span><br /><span th:text="${clientligne}"></span><br /><span th:text="${clientville}"></span></h3>
+			                     </td>
+			                  </tr>
+			                  <tr style="height: 60px;">
+			                     <td style="width: 350px; height: 60px;">&nbsp;</td>
+			                  </tr>
+			               </tbody>
+			            </table>
+			         </td>
+			      </tr>
+			   </tbody>
+			</table>
+			<p style="text-align: right;">Montants exprim&eacute;s en Euros</p>
+			<table style="height: 60px; width: 720px;border-collapse: collapse;border:1px solid gray;">
+			   <tbody>
+			      <tr>
+			         <td style="width: 320px; text-align: left;border:1px solid gray;padding:5px;">D&eacute;signation</td>
+			         <td style="width: 80px; text-align: center;border:1px solid gray;padding:5px;">TVA</td>
+			         <td style="width: 120px; text-align: center;border:1px solid gray;padding:5px;">P.U. HT</td>
+			         <td style="width: 80px; text-align: center;border:1px solid gray;padding:5px;">Qt&eacute;</td>
+			         <td style="width: 120px; text-align: center;border:1px solid gray;padding:5px;">Total HT</td>
+			      </tr>
+				  <tr th:each="element : ${factureelements}">
+					  <td style="width: 320px;border:1px solid gray;padding:5px;" th:text="${element.designation}"></td>
+			          <td style="width: 80px; text-align: right;border:1px solid gray;padding:5px;" th:text="${#numbers.formatPercent(element.tva/100, 0, 2)}">%s%%</td>
+			          <td style="width: 120px; text-align: right;border:1px solid gray;padding:5px;" th:text="${#numbers.formatDecimal(element.prixUnitaireHT, 1, 'WHITESPACE', 2, 'COMMA')} + ' €'">%,.2f</td>
+			          <td style="width: 80px; text-align: right;border:1px solid gray;padding:5px;" th:text="${#numbers.formatDecimal(element.quantite, 1, 'WHITESPACE', 2, 'COMMA')}">%,.2f</td>
+			          <td style="width: 120px; text-align: right;border:1px solid gray;padding:5px;" th:text="${#numbers.formatDecimal(element.totalHT, 1, 'WHITESPACE', 2, 'COMMA')} + ' €'">%,.2f</td>
+	              </tr>
+			   </tbody>
+			</table>
+			<p style="text-align: center;">&nbsp;</p>
+			<table style=" width: 720px;">
+			   <tbody>
+			      <tr style="height:">
+			         <td style="width: 400px;">
+			            <table style="width: 400px;">
+			               <tbody>
+			                  <tr style="width: 400px;">
+			                     <td style="width: 400px;">
+			                        <table style="width: 400px;">
+			                           <tbody>
+			                              <tr style="height: 15px;">
+			                                 <td style="width: 240px; height: 15px; text-align: center;"><strong>Conditions de r&egrave;glement:&nbsp;</strong></td>
+			                                 <td style="width: 240px; height: 15px; text-align: center;">R&egrave;glement &agrave; la livraison</td>
+			                              </tr>
+			                              <tr style="height: 15px;">
+			                                 <td style="width: 240px; height: 15px; text-align: center;">Total HT&nbsp;</td>
+			                                 <td style="width: 240px; height: 15px; text-align: center;"><span th:text="${#numbers.formatDecimal(totalht, 1, 'WHITESPACE', 2, 'COMMA')} + ' €'"></span></td>
+			                              </tr>
+			                           </tbody>
+			                        </table>
+			                     </td>
+			                  </tr>
+			                  <tr style="height: 70px;">
+			                     <td style="width: 400px; height: 70px;"><strong>R&egrave;glement par virement sur le compte bancaire suivant:</strong><br /><strong>Domiciliation: BRED</strong><br /><strong>Nom du propri&eacute;taire du compte: OKAYO</strong><br /><strong>Code IBAN: FR76 0000 0000 0000 0000 0000 097</strong><br /><strong>Code BIC/SWIFT: BREDFRPPXXX</strong></td>
+			                  </tr>
+			               </tbody>
+			            </table>
+			         </td>
+			         <td style="width: 310px;">
+			            <table style="width: 310px;border: 0px;border-collapse: collapse;">
+			               <tbody>
+							  <tr th:each="key : ${#lists.sort(new java.util.ArrayList(tva.keySet()))}" style="background-color: #EEEEEE">
+								<td style="width: 120px; height: 15px; text-align: left;" th:text="'Total TVA '+${#numbers.formatPercent(key /100, 0, 2)}">20.00%</td>
+								<td style="width: 120px; height: 15px; text-align: right;" th:text="${#numbers.formatDecimal(tva.get(key), 1, 'WHITESPACE', 2, 'COMMA')} + ' €'">127 €</td>
+							  </tr>
+			                  <tr style="height: 15px;border-collapse: collapse;background-color: #CCCCCC">
+			                     <td style="width: 120px; height: 15px; text-align: left;">Total TTC&nbsp;</td>
+			                     <td style="width: 120px; height: 15px; text-align: right;"  th:text="${#numbers.formatDecimal(totalttc, 1, 'WHITESPACE', 2, 'COMMA')} + ' €'">00 325,00</td>
+			                  </tr>
+			               </tbody>
+			            </table>
+			         </td>
+			      </tr>
+			   </tbody>
+			</table>
+			<p style="text-align: center;">&nbsp;Soci&eacute;t&eacute; par actions simplifi&eacute;e (SAS) - Capital de 10 000 &euro; - SIRET: 82255940700017<br />NAF-APE: 6201Z - Num. TVA: FR 76 822559407</p>
+         </div>
+      </div>
+   </body>
+</html>

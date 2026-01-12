@@ -1,6 +1,6 @@
 package com.okayo.facturation.core.model.domain;
 
-import static java.util.stream.Collectors.toMap;
+import static java.util.stream.Collectors.*;
 
 import java.util.Date;
 import java.util.List;

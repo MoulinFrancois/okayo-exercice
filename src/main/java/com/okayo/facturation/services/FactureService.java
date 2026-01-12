@@ -1,5 +1,6 @@
 package com.okayo.facturation.services;
 
+import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.summingDouble;
 import static java.util.stream.Collectors.toMap;
@@ -92,7 +93,9 @@ public class FactureService {
 			double quantite = quantitesRegroupees.get(dbProduit).doubleValue();
 			return new FacturationElement(data.getDesignation(), data.getTva(), data.getPrixUnitaireHT(), quantite,
 					data.getPrixUnitaireHT() * quantite);
-		}).toList();
+		})
+		.sorted(comparing(FacturationElement::getDesignation))
+		.toList();
 	}
 
 	private List<DbProduitSouscrit> findProduitsAFacturer(String clientCode, Date dateFacturation) {
