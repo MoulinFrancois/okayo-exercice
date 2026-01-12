@@ -18,7 +18,7 @@ import com.okayo.facturation.core.model.db.DbProduitData;
 import com.okayo.facturation.core.model.db.DbProduitSouscrit;
 import com.okayo.facturation.core.model.domain.FacturationElement;
 import com.okayo.facturation.core.model.domain.Facture;
-import com.okayo.facturation.core.model.domain.FactureRequest;
+import com.okayo.facturation.core.model.tech.FactureRequest;
 import com.okayo.facturation.core.utils.db.DbClientRepository;
 import com.okayo.facturation.core.utils.db.DbFactureRepository;
 import com.okayo.facturation.core.utils.db.DbProduitDataRepository;
@@ -34,23 +34,21 @@ public class FactureService {
 	private DbFactureRepository factureRepository;
 
 	@Autowired
-	public FactureService(DbClientRepository clientRepository, DbProduitDataRepository produitDataRepository, 
+	public FactureService(DbClientRepository clientRepository, DbProduitDataRepository produitDataRepository,
 			DbProduitSouscritRepository produitSouscritRepository, DbFactureRepository factureRepository) {
 		this.clientRepository = clientRepository;
 		this.produitDataRepository = produitDataRepository;
 		this.produitSouscritRepository = produitSouscritRepository;
 		this.factureRepository = factureRepository;
 	}
-	
+
 	public List<String> retrouverToutesLesReferencesFactures() {
 		return factureRepository.findAll().stream().map(DbFacture::getReference).toList();
 	}
 
 	public Facture creerFacturePourClient(FactureRequest fr, Date date) {
-		DbClient client = clientRepository.findByCode(fr.getClientCode());
-		if (client == null) {
-			throw new IllegalArgumentException("Client inexistant : " + fr.getClientCode());
-		}
+		DbClient client = clientRepository.findByCode(fr.getClientCode())
+				.orElseThrow(() -> new IllegalArgumentException("Client inexistant : " + fr.getClientCode()));
 		List<DbProduitSouscrit> produitsAFacturer = findProduitsAFacturer(client.getCode(), date);
 		if (produitsAFacturer.isEmpty()) {
 			throw new IllegalArgumentException("Aucun produit à facturer pour le client : " + fr.getClientCode());
@@ -68,18 +66,15 @@ public class FactureService {
 	}
 
 	private Facture buildFacture(DbFacture dbFacture) {
-		return new Facture(
-				dbFacture.getReference(), 
-				ClientMapper.INSTANCE.toClient(dbFacture.getClient()),
-				buildFacturationElements(dbFacture),
-				dbFacture.getDateFacturation(), 
-				dbFacture.getDateEcheance());
+		return new Facture(dbFacture.getReference(), ClientMapper.INSTANCE.toClient(dbFacture.getClient()),
+				buildFacturationElements(dbFacture), dbFacture.getDateFacturation(), dbFacture.getDateEcheance());
 	}
 
 	private List<FacturationElement> buildFacturationElements(DbFacture dbFacture) {
-		
-		//On trouve les produits à facturer
-		List<DbProduitSouscrit> produitsAFacturer = findProduitsAFacturer(dbFacture.getClient().getCode(), dbFacture.getDateFacturation());
+
+		// On trouve les produits à facturer
+		List<DbProduitSouscrit> produitsAFacturer = findProduitsAFacturer(dbFacture.getClient().getCode(),
+				dbFacture.getDateFacturation());
 
 		// on regroupe par produit en sommant les quantités (si plusieurs commandes d'un
 		// produit on veut une seule ligne dans la facture)
@@ -95,25 +90,19 @@ public class FactureService {
 		return quantitesRegroupees.keySet().stream().map(dbProduit -> {
 			DbProduitData data = produitsData.get(dbProduit);
 			double quantite = quantitesRegroupees.get(dbProduit).doubleValue();
-			return new FacturationElement(
-					data.getDesignation(),
-					data.getTva(),
-					data.getPrixUnitaireHT(),
-					quantite,
+			return new FacturationElement(data.getDesignation(), data.getTva(), data.getPrixUnitaireHT(), quantite,
 					data.getPrixUnitaireHT() * quantite);
 		}).toList();
 	}
 
 	private List<DbProduitSouscrit> findProduitsAFacturer(String clientCode, Date dateFacturation) {
-		Date dateDerniereFacturation = factureRepository.findLastDateFacturationBeforeReferenceForClient(
-				clientCode, dateFacturation);
+		Date dateDerniereFacturation = factureRepository.findLastDateFacturationBeforeReferenceForClient(clientCode,
+				dateFacturation);
 
 		// on recupere les produits souscrits entre la derniere facturation et la date
 		// de facturation de la facture qu'on traite
-		List<DbProduitSouscrit> produitsAFacturer = produitSouscritRepository.findByClientAndDate(
-				clientCode,
-				dateDerniereFacturation != null ? dateDerniereFacturation : new Date(0),
-				dateFacturation);
+		List<DbProduitSouscrit> produitsAFacturer = produitSouscritRepository.findByClientAndDate(clientCode,
+				dateDerniereFacturation != null ? dateDerniereFacturation : new Date(0), dateFacturation);
 		return produitsAFacturer;
 	}
 

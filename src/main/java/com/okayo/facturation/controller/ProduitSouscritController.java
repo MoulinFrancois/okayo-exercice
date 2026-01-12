@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.okayo.facturation.core.model.domain.ProduitSouscrit;
+import com.okayo.facturation.core.model.tech.ProduitSouscritRequest;
 import com.okayo.facturation.services.ProduitSouscritService;
 
 import jakarta.validation.Valid;
@@ -23,7 +24,7 @@ public class ProduitSouscritController {
 	ProduitSouscritService produitSouscritService;
 
 	@PostMapping(path = "/save", consumes = "application/json", produces = "application/json")
-	public void enregistrerProduitData(@Valid @RequestBody ProduitSouscrit ps) {
+	public void enregistrerProduitData(@Valid @RequestBody ProduitSouscritRequest ps) {
 		produitSouscritService.enregistrer(ps, new Date());
 	}
 

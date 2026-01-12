@@ -22,7 +22,7 @@ public class ClientService {
 	}
     
     public void enregistrerClient(Client client) {
-    	if (clientRepository.findByCode(client.getCode()) != null) {
+    	if (clientRepository.findByCode(client.getCode()).isPresent()) {
     		throw new IllegalArgumentException("CodeClient déjà utilisé : "+client.getCode());
     	}
     	clientRepository.save(ClientMapper.INSTANCE.toDbClient(client));

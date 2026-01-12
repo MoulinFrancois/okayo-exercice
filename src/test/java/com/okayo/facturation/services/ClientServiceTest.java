@@ -10,6 +10,7 @@ import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,14 +33,14 @@ public class ClientServiceTest {
 
 	@Test
 	public void enregistrerClient_casNormal() {
-		when(clientRepository.findByCode(anyString())).thenReturn(null);
+		when(clientRepository.findByCode(anyString())).thenReturn(Optional.empty());
 		clientService.enregistrerClient(new Client("code", "nom", new Adresse("ligne", "75001", "Paris")));
 		verify(clientRepository, times(1)).save(any());
 	}
 
 	@Test
 	public void enregistrerClient_casClientExistant() {
-		when(clientRepository.findByCode(anyString())).thenReturn(new DbClient());
+		when(clientRepository.findByCode(anyString())).thenReturn(Optional.of(new DbClient()));
 		assertThrows(IllegalArgumentException.class, () -> clientService
 				.enregistrerClient(new Client("code", "nom", new Adresse("ligne", "75001", "Paris"))));
 	}

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.okayo.facturation.core.model.domain.Produit;
+import com.okayo.facturation.core.model.tech.ProduitRequest;
 import com.okayo.facturation.services.ProduitService;
 
 import io.micrometer.common.util.StringUtils;
@@ -22,11 +23,11 @@ public class ProduitController {
 	ProduitService produitService;
 
 	@PostMapping(path = "/save", consumes = "application/json", produces = "application/json")
-	public void enregistrerProduit(@RequestBody String nomProduit) {
-		if (StringUtils.isBlank(nomProduit)) {
+	public void enregistrerProduit(@RequestBody ProduitRequest produitRequest) {
+		if (StringUtils.isBlank(produitRequest.getLabel())) {
 			throw new IllegalArgumentException("Le nom du produit ne peut pas être vide.");
 		}
-		produitService.sauvegarder(nomProduit);
+		produitService.sauvegarder(produitRequest.getLabel());
 	}
 
 	@GetMapping(path = "/load-all", produces = "application/json")

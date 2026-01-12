@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.okayo.facturation.core.model.domain.Facture;
-import com.okayo.facturation.core.model.domain.FactureRequest;
+import com.okayo.facturation.core.model.tech.FactureRequest;
 import com.okayo.facturation.services.FactureService;
 
 import jakarta.validation.Valid;
@@ -28,15 +28,15 @@ public class FactureController {
 	public Facture enregistrerProduit(@Valid @RequestBody FactureRequest facture) {
 		return factureService.creerFacturePourClient(facture, new Date());
 	}
-	
+
 	@GetMapping(path = "/load-all", produces = "application/json")
 	public List<String> getFacturesList() {
 		return factureService.retrouverToutesLesReferencesFactures();
 	}
-	
-    @GetMapping(path = "/load-by-reference/{reference}", produces = "application/json")
+
+	@GetMapping(path = "/load-by-reference/{reference}", produces = "application/json")
 	public Facture getFactureByReference(@PathVariable String reference) {
 		return factureService.retrouverFactureParReference(reference);
 	}
-    
+
 }

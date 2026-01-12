@@ -18,6 +18,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import com.okayo.facturation.core.model.db.DbProduit;
 import com.okayo.facturation.core.model.db.DbProduitData;
 import com.okayo.facturation.core.model.domain.ProduitData;
+import com.okayo.facturation.core.model.tech.ProduitDataRequest;
 import com.okayo.facturation.core.utils.db.DbProduitDataRepository;
 import com.okayo.facturation.core.utils.db.DbProduitRepository;
 
@@ -39,7 +40,7 @@ public class ProduitDataServiceTest {
 	@Test
 	public void enregistrerClient_casNormal() {
 		when(produitRepository.findByProduitId(PRODUIT_A.getProduitId())).thenReturn(java.util.Optional.of(PRODUIT_A));
-		ProduitData entry = new ProduitData(PRODUIT_A.getProduitId(), "Le Produit A", 20d, 4000d);
+		ProduitDataRequest entry = new ProduitDataRequest(PRODUIT_A.getProduitId(), "Le Produit A", 20d, 4000d);
 		
 		produitDataService.sauvegarder(entry, NOW);
 		
@@ -51,7 +52,7 @@ public class ProduitDataServiceTest {
 	@Test
 	public void enregistrerClient_casProduitInexistant() {
 		when(produitRepository.findByProduitId(PRODUIT_A.getProduitId())).thenReturn(java.util.Optional.empty());
-		ProduitData entry = new ProduitData(PRODUIT_A.getProduitId(), "Le Produit A", 20d, 4000d);
+		ProduitDataRequest entry = new ProduitDataRequest(PRODUIT_A.getProduitId(), "Le Produit A", 20d, 4000d);
 		
 		assertThrows(IllegalArgumentException.class, () -> produitDataService.sauvegarder(entry, NOW));
 	}

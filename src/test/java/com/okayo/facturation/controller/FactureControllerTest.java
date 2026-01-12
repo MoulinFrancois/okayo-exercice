@@ -90,25 +90,25 @@ public class FactureControllerTest {
 		mockMvc.perform(get("/api/facture/load-all")).andExpect(status().isOk())
 				.andExpect(content().json("[\"2026-001\",\"2026-002\",\"2026-003\"]"));
 	}
-	
+
 	@Test
 	void retrouverFactureParReference_ok() throws Exception {
-        when(factureService.retrouverFactureParReference("2026-001")).thenReturn(factureCreee);
+		when(factureService.retrouverFactureParReference("2026-001")).thenReturn(factureCreee);
 		String expectedJsonContent = new String(
 				FactureControllerTest.class.getResourceAsStream("./expectedFacture.json").readAllBytes(),
 				StandardCharsets.UTF_8);
 
-		mockMvc.perform(get("/api/facture/load-by-reference/2026-001")
-				.contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
-				.andExpect(content().json(expectedJsonContent));
+		mockMvc.perform(get("/api/facture/load-by-reference/2026-001").contentType(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk()).andExpect(content().json(expectedJsonContent));
 	}
-	
+
 	@Test
 	void retrouverFactureParReference_referenceInconnue() throws Exception {
-        when(factureService.retrouverFactureParReference("2020-001")).thenThrow(new IllegalArgumentException("Facture introuvable avec la référence : 2020-001"));
-		
-		mockMvc.perform(get("/api/facture/load-by-reference/2020-001")
-				.contentType(MediaType.APPLICATION_JSON)).andExpect(status().is(400))
+		when(factureService.retrouverFactureParReference("2020-001"))
+				.thenThrow(new IllegalArgumentException("Facture introuvable avec la référence : 2020-001"));
+
+		mockMvc.perform(get("/api/facture/load-by-reference/2020-001").contentType(MediaType.APPLICATION_JSON))
+				.andExpect(status().is(400))
 				.andExpect(jsonPath("$.body.detail").value("Facture introuvable avec la référence : 2020-001"));
 	}
 

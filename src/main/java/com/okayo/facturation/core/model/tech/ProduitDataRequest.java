@@ -1,32 +1,29 @@
-package com.okayo.facturation.core.model.domain;
+package com.okayo.facturation.core.model.tech;
 
-public class ProduitData {
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
-	private Integer id;
+public class ProduitDataRequest {
+
+	@NotNull
 	private Integer produitId;
+	@NotBlank
 	private String designation;
+	@NotNull
 	private Double tva;
+	@NotNull
 	private Double prixUnitaireHT;
 
-	public ProduitData() {
+	public ProduitDataRequest() {
 		super();
 	}
 
-	public ProduitData(Integer id, Integer produitId, String designation, Double tva, Double prixUnitaireHT) {
+	public ProduitDataRequest(Integer produitId, String designation, Double tva, Double prixUnitaireHT) {
 		super();
-		this.id = id;
 		this.produitId = produitId;
 		this.designation = designation;
 		this.tva = tva;
 		this.prixUnitaireHT = prixUnitaireHT;
-	}
-	
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
 	}
 
 	public Integer getProduitId() {

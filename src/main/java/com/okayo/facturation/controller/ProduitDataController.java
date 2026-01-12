@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.okayo.facturation.core.model.domain.ProduitData;
+import com.okayo.facturation.core.model.tech.ProduitDataRequest;
 import com.okayo.facturation.services.ProduitDataService;
 
 import jakarta.validation.Valid;
@@ -23,7 +24,7 @@ public class ProduitDataController {
 	ProduitDataService produitDataService;
 
 	@PostMapping(path = "/save", consumes = "application/json", produces = "application/json")
-	public void enregistrerProduitData(@Valid @RequestBody ProduitData data) {
+	public void enregistrerProduitData(@Valid @RequestBody ProduitDataRequest data) {
 		produitDataService.sauvegarder(data, new Date());
 	}
 

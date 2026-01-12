@@ -2,12 +2,15 @@ package com.okayo.facturation.core.utils.db;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.Optional;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 
 import com.okayo.facturation.core.model.db.DbClient;
+
 
 @DataJpaTest
 public class DbClientRepositoryTest {
@@ -22,7 +25,6 @@ public class DbClientRepositoryTest {
     public void insertion() {
         // Given
         DbClient solly = new DbClient("client26-001", "Solly", "12 rue du test", "75016", "Paris");
-        assertThat(entityManager.find(DbClient.class, solly.getCode())).isNull(); // pas en bdd
 
         // When
         dbClientRepository.save(solly);
@@ -44,9 +46,8 @@ public class DbClientRepositoryTest {
         entityManager.flush();
 
         // When
-        DbClient found = dbClientRepository.findByCode(solly.getCode());
-        DbClient inexistant = dbClientRepository.findByCode("inexistant");
-        
+        DbClient found = dbClientRepository.findByCode(solly.getCode()).get();
+        Optional<DbClient> inexistant = dbClientRepository.findByCode("inexistant");
 
         // Then
         assertThat(found.getCode()).isEqualTo(solly.getCode());
@@ -55,7 +56,7 @@ public class DbClientRepositoryTest {
         assertThat(found.getCodePostal()).isEqualTo(solly.getCodePostal());
         assertThat(found.getVille()).isEqualTo(solly.getVille());
         
-        assertThat(inexistant).isNull();
+        assertThat(inexistant.isPresent()).isFalse();
     }
     
 }

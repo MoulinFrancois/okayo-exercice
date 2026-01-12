@@ -41,7 +41,8 @@ public class ProduitControllerTest {
 	@Test
 	void enregistrerProduit_ok() throws Exception {
 		doNothing().when(produitService).sauvegarder(anyString());
-		mockMvc.perform(post("/api/produit/save").content("Produit Test").contentType(MediaType.APPLICATION_JSON))
+		mockMvc.perform(post("/api/produit/save").content("{\"label\":\"Produit Test\"}")
+				.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk());
 	}
 
@@ -49,7 +50,7 @@ public class ProduitControllerTest {
 	void enregistrerProduit_existant() throws Exception {
 		doThrow(new IllegalArgumentException("Un produit avec ce label existe déjà : Produit Test"))
 				.when(produitService).sauvegarder(any());
-		mockMvc.perform(post("/api/produit/save").content("Produit Test").contentType(MediaType.APPLICATION_JSON))
+		mockMvc.perform(post("/api/produit/save").content("{\"label\":\"Produit Test\"}").contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().is(400))
 				.andExpect(jsonPath("$.body.detail").value("Un produit avec ce label existe déjà : Produit Test"));
 	}
@@ -57,7 +58,7 @@ public class ProduitControllerTest {
 	@Test
 	void enregistrerProduit_contentInvalide() throws Exception {
 		doNothing().when(produitService).sauvegarder(any());
-		mockMvc.perform(post("/api/produit/save").content(" ").contentType(MediaType.APPLICATION_JSON))
+		mockMvc.perform(post("/api/produit/save").content("{ }").contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().is(400))
 				.andExpect(jsonPath("$.body.detail").value("Le nom du produit ne peut pas être vide."));
 	}

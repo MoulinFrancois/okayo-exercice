@@ -36,11 +36,11 @@ public class ProduitDataControllerTest {
 	@Test
 	void loadActuelles() throws Exception {
 		when(produitDataService.chargerEntreesActuelles()).thenReturn(List
-				.of(new ProduitData(1, "Produit A", 20d, 4000d), new ProduitData(2, "Produit B", 15d, 3000d)));
+				.of(new ProduitData(1, 1, "Produit A", 20d, 4000d), new ProduitData(2, 2, "Produit B", 15d, 3000d)));
 		
 		String expected = """
-				[{"id":null,"produitId":1,"designation":"Produit A","tva":20.0,"prixUnitaireHT":4000.0},
-				 {"id":null,"produitId":2,"designation":"Produit B","tva":15.0,"prixUnitaireHT":3000.0}]
+				[{"id":1,"produitId":1,"designation":"Produit A","tva":20.0,"prixUnitaireHT":4000.0},
+				 {"id":2,"produitId":2,"designation":"Produit B","tva":15.0,"prixUnitaireHT":3000.0}]
 				""";
 		mockMvc.perform(get("/api/produit-data/load-current"))
 		.andExpect(status().isOk())
@@ -51,7 +51,7 @@ public class ProduitDataControllerTest {
 	void enregistrerProduitData_ok() throws Exception {
 		doNothing().when(produitDataService).sauvegarder(any(), any());
 		mockMvc.perform(post("/api/produit-data/save")
-				.content("{\"produitId\":1,\"designation\":\"Produit A\",\"tva\":20.0,\"prixUnitaireHT\":4000.0}")
+				.content("{\"id\":1,\"produitId\":1,\"designation\":\"Produit A\",\"tva\":20.0,\"prixUnitaireHT\":4000.0}")
 				.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk());
 	}
@@ -61,7 +61,7 @@ public class ProduitDataControllerTest {
 		doThrow(new IllegalArgumentException("Produit introuvable avec l'ID : 42"))
 				.when(produitDataService).sauvegarder(any(), any());
 		mockMvc.perform(post("/api/produit-data/save")
-				.content("{\"produitId\":1,\"designation\":\"Produit A\",\"tva\":20.0,\"prixUnitaireHT\":4000.0}")
+				.content("{\"id\":1,\"produitId\":1,\"designation\":\"Produit A\",\"tva\":20.0,\"prixUnitaireHT\":4000.0}")
 				.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().is(400))
 				.andExpect(jsonPath("$.body.detail").value("Produit introuvable avec l'ID : 42"));

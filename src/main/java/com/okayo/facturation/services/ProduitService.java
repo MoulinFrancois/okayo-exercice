@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import com.okayo.facturation.core.model.db.DbProduit;
 import com.okayo.facturation.core.model.domain.Produit;
 import com.okayo.facturation.core.utils.db.DbProduitRepository;
-import com.okayo.facturation.services.mappers.ProduitMapper;
 
 @Service
 public class ProduitService {
@@ -27,7 +26,7 @@ public class ProduitService {
     }
     
 	public List<Produit> trouverTousLesProduits() {
-		return produitRepository.findAll().stream().map(p -> ProduitMapper.INSTANCE.toProduit(p)).toList();
+		return produitRepository.findAll().stream().map(p -> new Produit(p.getProduitId(), p.getLabel())).toList();
 	}
 
 }

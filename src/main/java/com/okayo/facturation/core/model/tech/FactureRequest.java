@@ -1,4 +1,4 @@
-package com.okayo.facturation.core.model.domain;
+package com.okayo.facturation.core.model.tech;
 
 import java.util.Date;
 
