@@ -1,3 +1,3 @@
-Swagger : /swagger-ui/index.html
-pour voir une facture : /view/pdf/{reference}
-pour telecharger une facture : /download/pdf/{reference}
+* Swagger : /swagger-ui/index.html
+* pour voir une facture : /view/pdf/{reference}
+* pour telecharger une facture : /download/pdf/{reference}
